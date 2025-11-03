@@ -1,0 +1,270 @@
+﻿
+@{
+    ViewBag.Title = "ChartFromEF";
+}
+
+<center><h1>Report</h1></center>
+<br />
+<br />
+
+<!--charts for report-->
+<div class="row">
+    <div class="col-md-6">
+        <h5>Top 10 Available Products</h5>
+        <div>
+            <canvas id="mypiechart"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <h5>2016 Sales Summary</h5>
+        <div>
+            <canvas id="mybarchart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <h5>Total Sales by Staff</h5>
+        <div>
+            <canvas id="mylinechart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+
+</div>
+<br />
+<br />
+
+<!--save report-->
+<center>
+    <div class="card" style="width: 50%; background-color:antiquewhite">
+        <div class="container">
+            <br />
+            <br />
+            <p>Enter FileName:</p>
+            <input type="text" id="fileNameInput" placeholder="Enter file name" />
+            <br />
+            <br />
+
+            <label for="fileType">Choose File format</label>
+            <select id="fileType">
+                <option value="pdf">pdf</option>
+                <option value="png">png</option>
+                <option value="jpg">jpg</option>
+            </select>
+            <br />
+            <br />
+            <button onclick="saveReport()" class="btn btn-primary">Save</button>
+            <br />
+            <br />
+        </div>
+    </div>
+</center>
+
+
+
+
+
+
+
+<button onclick="generatePDF()" hidden>Generate PDF</button>
+
+
+
+
+
+
+
+
+<br />
+<br />
+
+<!--table for report-->
+<section>
+    <center>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td> Report Name</td>
+                    <td> Report Format</td>
+                    <td> Add Description</td>
+                    <td> Download</td>
+                    <td> Delete</td>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </center>
+</section>
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+
+
+    <script type="text/javascript">
+
+        //save function 
+        function saveReport() {
+
+            const fileNameR = document.getElementById('fileNameInput').value || 'charts';
+            const fileFormatR = document.getElementById('fileType').value || 'pdf';
+            const row = document.createElement('tr');
+            const tableBody = document.querySelector('table tbody');
+            row.innerHTML = `
+                                    <td>${fileNameR}</td>
+                                    <td>${fileFormatR}</td>
+                                    <td><textarea id ="descriptionn" style="resize: both; width: 100%; height: 60px"></textarea></td>
+                                    <td><a href="#" onclick="generatePDF()" class="class="btn btn-primary">Download</a></td>
+                                    <td><button onclick="this.closest('tr').remove()" class="btn btn-primary">Delete</button></td>
+                                `;
+
+            tableBody.appendChild(row);
+
+
+
+
+
+        }
+
+        //create pdf function 
+        function generatePDF() {
+
+
+
+            const fileName = document.getElementById('fileNameInput').value || 'charts';
+            const fileFormat = document.getElementById('fileType').value || 'pdf';
+            const des = document.getElementById('descriptionn').value || '';
+
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'pt', 'a4');
+            const pieImage = document.getElementById('mypiechart').toDataURL('image/png');
+            const barImage = document.getElementById('mybarchart').toDataURL('image/png');
+            const lineImage = document.getElementById('mylinechart').toDataURL('image/png');
+            doc.addImage(pieImage, 'PNG', 10, 10, 280, 180);
+            doc.addImage(barImage, 'PNG', 300, 10, 280, 180);
+            doc.addImage(lineImage, 'PNG', 10, 210, 570, 180);
+
+            if (fileFormat === 'pdf') {
+                doc.text(des, 20, 20)
+                doc.save(fileName + '.pdf');
+
+            }
+
+            else if (fileFormat === 'png') {
+                doc.text(des, 20, 20)
+                doc.save(fileName + '.png');
+
+            }
+
+            else if (fileFormat === 'jpg') {
+                doc.text(des, 20, 20)
+                doc.save(fileName + '.jpg');
+            }
+
+        }
+
+        //chart functions
+        $(function () {
+
+
+
+            var ctx = document.getElementById('mypiechart').getContext('2d');
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["Surly Ice Cream Truck Frameset - 2017", "Trek Powerfly 8 FS Plus - 2017", "Electra Townie Original 7D - 2017", "Sun Bicycles Cruz 3 - 2017", "Sun Bicycles Cruz 3 - 2017"],
+                    datasets: [{
+                        label: 'My First Dataset',
+                        data: [30, 30, 30, 30, 30],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)',
+                            'rgb(153, 102, 255)']
+                    }]
+
+                }
+
+
+
+            });
+
+            var ctx_bchart = document.getElementById('mybarchart');
+            var myBarChart = new Chart(ctx_bchart, {
+                type: 'bar',
+                data: {
+                    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov"],
+                    datasets: [{
+                        label: 'Total Sale',
+                        data: [30, 30, 30, 30, 30],
+                        backgroundColor:
+                            'rgb(255, 99, 132)',
+                        borderColor:
+                            'rgb(255, 99, 132)',
+                        borderWidth: 1,
+                        hoverBackgroundColor:
+                            'rgb(255, 99, 132,0.4)',
+                        hoverBorderColor:
+                            'rgb(255, 99, 132,1)',
+                        data: [215146.4241, 156112.3228, 180600.3285, 167144.0512, 205270.0091, 210562.1245, 199556.8089, 225657.3767, 273091.6097, 212078.0805, 182329.4124]
+
+
+
+                    }]
+
+                }
+
+
+
+            });
+
+
+
+            var ctx_lchart = document.getElementById('mylinechart');
+            var myLineChart = new Chart(ctx_lchart, {
+                type: 'line',
+                data: {
+                    labels: ["Marcelene Boyer", "Venita Daniel", "Genna Serrano", "Mireya Copeland", "Kali Vargas", "Layla Terrell"],
+                    datasets: [{
+                        label: 'Highest Selling',
+                        data: [30, 30, 30, 30, 30],
+                        backgroundColor:
+                            'rgb(255, 99, 132)',
+                        borderColor:
+                            'rgb(255, 99, 132)',
+                        borderWidth: 1,
+                        hoverBackgroundColor:
+                            'rgb(255, 99, 132,0.4)',
+                        hoverBorderColor:
+                            'rgb(255, 99, 132,1)',
+                        data: [2624120.6530, 2591630.6245, 853287.3589, 752535.6776, 463918.3046, 403623.9390],
+                        fill: true
+
+
+
+                    }]
+
+                }
+
+
+
+            });
+
+
+
+
+
+        });
+
+    </script>
+
+
+
+}

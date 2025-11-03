@@ -1,0 +1,149 @@
+﻿@model INF272HWK3.Models.HomePViewModel
+@using INF272HWK3.Models;
+
+@{
+    ViewBag.Title = "Merged Index";
+}
+
+<center><h1>Home</h1></center>
+<br />
+<br />
+
+
+<!--merge 1-->
+<div class="row">
+    <div class="col-md-4">
+        <div class="border border-3 rounded p-3">
+            <div class="card" style=" background-color:antiquewhite">
+                <center>
+                    <h2>Customer:</h2>
+
+                    <p>
+                        <a href="#" class="create-link btn btn-primary" data-url="@Url.Action("customerCreate", "customer")">Add Customer</a>
+                    </p>
+                </center>
+                <table class="table" style="width:100%">
+
+                    @foreach (var item in Model.Customerss)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.first_name)
+
+
+                                @Html.DisplayFor(modelItem => item.last_name)
+
+
+                                @Html.DisplayFor(modelItem => item.phone)
+
+
+                                @Html.DisplayFor(modelItem => item.email)
+
+                                @Html.DisplayFor(modelItem => item.street)
+
+                                @Html.DisplayFor(modelItem => item.city)
+
+                                @Html.DisplayFor(modelItem => item.state)
+
+                                @Html.DisplayFor(modelItem => item.zip_code)
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--merge 2-->
+    <div class="col-md-4">
+        <div class="border border-3 rounded p-3">
+            <div class="card" style=" background-color:antiquewhite">
+                <center>
+                    <h2>Products:</h2>
+
+                    <p>
+                        <a href="#" class="create-link btn btn-primary" data-url="@Url.Action("productCreate", "product")">Add Product</a>
+                    </p>
+                </center>
+                <table class="table" style="width:100%">
+
+                    @foreach (var item in Model.Productss)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.product_name)
+
+                                @Html.DisplayFor(modelItem => item.model_year)
+
+                                @Html.DisplayFor(modelItem => item.list_price)
+
+                                @Html.DisplayFor(modelItem => item.brands.brand_name)
+
+                                @Html.DisplayFor(modelItem => item.categories.category_name)
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--merge 3-->
+    <div class="col-md-4">
+        <div class="border border-3 rounded p-3">
+            <div class="card" style=" background-color:antiquewhite">
+                <center>
+                    <h2>Staff:</h2>
+
+                    <p>
+                        <a href="#" class="create-lookup-link btn btn-primary" data-url="@Url.Action("staffsCreate", "staffs")">Add Staff</a>
+                    </p>
+                </center>
+                <table class="table" style="width:100%">
+                    <tr>
+                    </tr>
+                    @foreach (var item in Model.Staffss)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.first_name)
+
+
+                                @Html.DisplayFor(modelItem => item.last_name)
+
+
+                                @Html.DisplayFor(modelItem => item.email)
+
+
+                                @Html.DisplayFor(modelItem => item.phone)
+
+                                @Html.DisplayFor(modelItem => item.active)
+
+                                @Html.DisplayFor(modelItem => item.staffs2.first_name)
+
+
+                                @Html.DisplayFor(modelItem => item.stores.store_name)
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--meodal: not working -->
+<div id="myModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Sample Async CRUD</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modal-content">
+                @Html.Partial("~/Views/customers/Create.cshtml", new customers())
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,140 @@
+﻿@model INF272HWK3.Models.HomePViewModel
+@using INF272HWK3.Models;
+
+@{
+    ViewBag.Title = "Maintain";
+}
+
+<center><h1>Maintain</h1></center>
+<br />
+<br />
+
+<!--merge 1-->
+<div class="row">
+    <div class="col-md-4">
+        <div class="border border-3 rounded p-3">
+            <div class="card" style=" background-color:antiquewhite">
+                <center><h2>Customer</h2></center>
+
+
+
+                <table class="table" style="width:100%">
+
+                    @foreach (var item in Model.Customerss)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.first_name)
+
+
+                                @Html.DisplayFor(modelItem => item.last_name)
+
+
+                                @Html.DisplayFor(modelItem => item.phone)
+
+
+                                @Html.DisplayFor(modelItem => item.email)
+
+                                @Html.DisplayFor(modelItem => item.street)
+
+                                @Html.DisplayFor(modelItem => item.city)
+
+                                @Html.DisplayFor(modelItem => item.state)
+
+                                @Html.DisplayFor(modelItem => item.zip_code)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "customerEdit", new { id = item.customer_id }, new { @class = "btn btn-sm btn-primary" }) |
+
+                                @Html.ActionLink("Delete", "customerDelete", new { id = item.customer_id }, new { @class = "btn btn-sm btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            </div>
+        </div>
+    <!--merge 2-->
+    <div class="col-md-4">
+        <div class="border border-3 rounded p-3">
+            <div class="card" style=" background-color:antiquewhite">
+                <center><h2>Products</h2></center>
+
+
+
+                <table class="table" style="width:100%">
+
+                    @foreach (var item in Model.Productss)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.product_name)
+
+                                @Html.DisplayFor(modelItem => item.model_year)
+
+                                @Html.DisplayFor(modelItem => item.list_price)
+
+                                @Html.DisplayFor(modelItem => item.brands.brand_name)
+
+                                @Html.DisplayFor(modelItem => item.categories.category_name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "productEdit", new { id = item.product_id }, new { @class = "btn btn-sm btn-primary" }) |
+
+                                @Html.ActionLink("Delete", "productDelete", new { id = item.product_id }, new { @class = "btn btn-sm btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            </div>
+        </div>
+    <!--merge 3-->
+    <div class="col-md-4">
+        <div class="border border-3 rounded p-3">
+            <div class="card" style=" background-color:antiquewhite">
+                <center><h2>Staff</h2></center>
+
+
+
+                <table class="table" style="width:100%">
+                    <tr>
+                        <th>
+                            no
+                        </th>
+                        <th></th>
+                    </tr>
+                    @foreach (var item in Model.Staffss)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.first_name)
+
+
+                                @Html.DisplayFor(modelItem => item.last_name)
+
+
+                                @Html.DisplayFor(modelItem => item.email)
+
+
+                                @Html.DisplayFor(modelItem => item.phone)
+
+                                @Html.DisplayFor(modelItem => item.active)
+
+                                @Html.DisplayFor(modelItem => item.staffs2.first_name)
+
+
+                                @Html.DisplayFor(modelItem => item.stores.store_name)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "staffsEdit", new { id = item.staff_id }, new { @class = "btn btn-sm btn-primary" }) |
+
+                                @Html.ActionLink("Delete", "staffsDelete", new { id = item.staff_id }, new { @class = "btn btn-sm btn-primary" })
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            </div>
+        </div>
+</div>
